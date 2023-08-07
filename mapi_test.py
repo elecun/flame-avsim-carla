@@ -29,8 +29,8 @@ if __name__ == '__main__':
         if mapi_instance.mapi_get_scenario_end():
             print("> Requested : scenario is now stopping.")
             
-        # mapi_instance.mapi_set_scenario_end()
-        # mapi_instance.mapi_set_scenario_start()
+        mapi_instance.mapi_set_scenario_end()
+        mapi_instance.mapi_set_scenario_start()
         
         
         time.sleep(1)
