@@ -110,7 +110,7 @@ class mapi(threading.Thread):
                 updated_status["app"] = APP_NAME
                 
                 # ego vehicle status (float type data only)
-                float_status = ["velocity", "accel", "steer", "throttle", "brake"]
+                float_status = ["speed", "accel_x", "accel_y", "steer", "gyro_x", "gyro_y", "gyro_z", "loc_x", "loc_y", "throttle", "brake"]
                 for status_key in float_status:
                     if status_key in status.keys():
                         if type(status[status_key])==float:
