@@ -125,8 +125,8 @@ class mapi(threading.Thread):
         
         # re-publish
         if self.mq_client.is_connected():
-            msg = {"alert_collision":True}
-            self.mq_client.publish("flame/avsim/carla/mapi_set_alert_collision", json.dumps(msg), 0)
+            msg = {"app" : APP_NAME}
+            self.mq_client.publish("flame/avsim/carla/notify_alert_collision", json.dumps(msg), 0)
         else:
             print("Not connected to broker")
     
