@@ -19,7 +19,7 @@ if __name__ == '__main__':
                    
             
         # write ego vehicle status into the database
-        ego_status = {"velocity":0.0, "accel":0.0, "steer":0.0, "throttle":0.0, "break":0.0}
+        ego_status = {"velocity":0.0, "accel":0.0, "steer":0.0, "throttle":0.0, "brake":0.0}
         mapi_instance.mapi_set_ego_status(ego_status)
         
         # warning event

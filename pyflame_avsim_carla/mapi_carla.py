@@ -32,7 +32,8 @@ class mapi(threading.Thread):
         # declared for subscribing mapi
         self.message_api = {
             "flame/avsim/carla/mapi_set_scenario_start" : self.mapi_set_scenario_start,
-            "flame/avsim/carla/mapi_set_scenario_end" : self.mapi_set_scenario_end
+            "flame/avsim/carla/mapi_set_scenario_end" : self.mapi_set_scenario_end,
+            "flame/avsim/carla/mapi_set_scenario_init" : self.mapi_set_scenario_init
         }
         
         self.mq_client = mqtt.Client(client_id="flame-avsim-carla",transport='tcp',protocol=mqtt.MQTTv311, clean_session=True)
@@ -47,6 +48,7 @@ class mapi(threading.Thread):
         # flags
         self._scenario_start = False
         self._scenario_end = False
+        self._scenario_init = False
         
         
     # thread callback function for loop    
@@ -65,6 +67,22 @@ class mapi(threading.Thread):
         else:
             print("It cannot be connected to broker")
         return False
+    
+    # message api for actor/ego location initialization
+    def mapi_get_scenario_init(self):
+        init = False
+        if self._scenario_init is True:
+            init = True
+            self._scenario_init = False
+            
+            # save log
+            self._write_log({"scenario_init":int(True)})
+            
+        return init
+    
+    # message api for actor/ego location initialization
+    def mapi_set_scenario_init(self, payload):
+        self._scenario_init = True
             
     
     # message api callback
@@ -92,7 +110,7 @@ class mapi(threading.Thread):
                 updated_status["app"] = APP_NAME
                 
                 # ego vehicle status (float type data only)
-                float_status = ["velocity", "accel", "steer", "throttle", "break"]
+                float_status = ["velocity", "accel", "steer", "throttle", "brake"]
                 for status_key in float_status:
                     if status_key in status.keys():
                         if type(status[status_key])==float:
